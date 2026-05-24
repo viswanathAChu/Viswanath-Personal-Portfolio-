@@ -25,22 +25,22 @@ export default function Overlay({ scrollYProgress }: OverlayProps) {
         
         <motion.div style={{ opacity: opacity1, y: y1 }} className="absolute inset-0 flex items-center justify-center text-white">
           <div className="text-center px-4">
-            <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-tighter">VISWANATH A S.</h1>
-            <p className="text-lg sm:text-2xl md:text-3xl text-neutral-400 mt-4 font-light tracking-wide">AI Enthusiast & Developer.</p>
+            <h1 className="text-4xl sm:text-6xl md:text-8xl font-extrabold tracking-tight">VISWANATH A S</h1>
+            <p className="text-lg sm:text-2xl md:text-3xl text-neutral-400 mt-4 font-light tracking-widest uppercase">AI Enthusiast & Developer.</p>
           </div>
         </motion.div>
 
         <motion.div style={{ opacity: opacity2, y: y2 }} className="absolute inset-0 flex items-center justify-end px-6 sm:px-12 md:px-32 text-right text-white">
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold max-w-3xl leading-tight">
+          <h2 className="text-3xl sm:text-5xl md:text-7xl font-extrabold max-w-3xl leading-tight tracking-tight">
             Transforming complex <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">data into impactful solutions.</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">data into impactful solutions.</span>
           </h2>
         </motion.div>
 
         <motion.div style={{ opacity: opacity3, y: y3 }} className="absolute inset-0 flex items-center justify-start px-6 sm:px-12 md:px-32 text-white">
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold max-w-4xl leading-tight">
+          <h2 className="text-3xl sm:text-5xl md:text-7xl font-extrabold max-w-4xl leading-tight tracking-tight">
             Specialized in <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500">Machine Learning, Deep Learning, and Gen AI.</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-accent">Machine Learning, Deep Learning, and Gen AI.</span>
           </h2>
         </motion.div>
 

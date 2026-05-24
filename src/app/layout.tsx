@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
+import CursorGlow from "@/components/CursorGlow";
 
-const inter = Inter({ subsets: ["latin"] });
+const outfit = Outfit({ 
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"] 
+});
 
 export const metadata: Metadata = {
   title: "VISWANATH A S | AI Enthusiast",
@@ -15,8 +19,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${inter.className} antialiased bg-black text-white`}>
+    <html lang="en" className="dark scroll-smooth">
+      <body className={`${outfit.className} antialiased bg-black text-white`}>
+        <CursorGlow />
         {children}
       </body>
     </html>

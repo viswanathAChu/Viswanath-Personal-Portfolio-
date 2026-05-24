@@ -3,8 +3,40 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --primary: #00d2ff;
+    --secondary: #3a7bd5;
+    --accent: #7f00ff;
+    --dark-bg: #0a0a0a;
+    --card-bg: rgba(17, 17, 17, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.08);
+  }
+
   body {
-    background-color: #121212;
-    color: white;
+    background-color: var(--dark-bg);
+    color: #ffffff;
+    overflow-x: hidden;
+  }
+
+  /* Custom scrollbar matching Jobin's website */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--dark-bg);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #222;
+    border-radius: 5px;
+    border: 2px solid var(--dark-bg);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
   }
 }
