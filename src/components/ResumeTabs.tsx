@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Code2, GraduationCap, Briefcase, Code, Award } from "lucide-react";
+import { GraduationCap, Briefcase, Code, Award } from "lucide-react";
 
 const tabs = ["About", "Projects", "Skills", "Experience", "Education"];
 
@@ -12,14 +12,35 @@ const projectsData = [
     title: "MediCore AI: Symptom-to-Disease Analyzer",
     description: "Developed an Ensemble Voting Classifier (Logistic Regression, SVC, Naive Bayes) for disease prediction. Built an NLP pipeline using TF-IDF and text preprocessing. Deployed an interactive Streamlit web app for real-time symptom input and instant disease prediction output.",
     tags: ["Python", "Scikit-learn", "NLP", "Streamlit"],
-    link: "#", // User will add link
+    link: "https://github.com/viswanathAChu/MediCore-AI-Symptom-to-Disease-Analyzer",
   },
   {
     id: 2,
     title: "SmartDoor Pro — AI Face Recognition Door Lock",
     description: "Built a real-time face authentication system using FaceNet (InceptionResNetV1) and FAISS vector search. Implemented liveness detection using MediaPipe FaceMesh and Eye Aspect Ratio (EAR) algorithm. Designed a data augmentation pipeline with Albumentations.",
     tags: ["FaceNet", "FAISS", "MediaPipe", "OpenCV", "Streamlit"],
-    link: "#", // User will add link
+    link: "https://github.com/viswanathAChu/SmartDoor-Pro-AI-Face-Recognition-Door-Lock",
+  },
+  {
+    id: 3,
+    title: "FingerFlow AI — Virtual Touchless Keyboard",
+    description: "Created a touchless virtual keyboard utilizing MediaPipe Hand Tracking and OpenCV. Employs advanced hand landmark detection allowing users to type in the air by pinching fingers, with a highly optimized responsive visual interface.",
+    tags: ["Python", "OpenCV", "MediaPipe", "Computer Vision"],
+    link: "https://github.com/viswanathAChu/FingerFlow-AI-Real-Time-Virtual-Keyboard-with-Hand-Landmark-Detection-",
+  },
+  {
+    id: 4,
+    title: "Multi-Agent RAG System",
+    description: "Engineered a Multi-Agent Retrieval-Augmented Generation (RAG) framework using LangChain/LangGraph. Features coordinate agents that perform query decomposition, context retrieval, verification, and final response generation.",
+    tags: ["Python", "LangChain", "LLMs", "RAG", "LangGraph"],
+    link: "https://github.com/viswanathAChu/Multi_Agent_RAG",
+  },
+  {
+    id: 5,
+    title: "NewsSense — Automated Headline Classifier",
+    description: "Designed an end-to-end NLP pipeline for unsupervised categorization of 1M+ news headlines. Implemented TF-IDF vectorization, K-Means clustering, and Principal Component Analysis (PCA) for high-dimensional cluster visualization.",
+    tags: ["Python", "NLTK", "K-Means", "PCA", "Scikit-learn"],
+    link: "https://github.com/viswanathAChu/NewsSense-Automated-Headline-Classifier",
   },
 ];
 
@@ -28,7 +49,7 @@ const skillsData = [
   { category: "Data Analysis", items: ["NumPy", "Pandas", "Matplotlib", "Seaborn", "Power BI"] },
   { category: "Machine Learning", items: ["Scikit-learn", "Regression", "KNN", "Random Forest", "XGBoost"] },
   { category: "Deep Learning & CV", items: ["TensorFlow", "CNN", "RNN", "LSTM", "OpenCV", "YOLO", "MediaPipe"] },
-  { category: "NLP & Generative AI", items: ["Transformers", "LLMs", "LangChain", "RAG", "Hugging Face", "Ollama"] },
+  { category: "NLP & Generative AI", items: ["Transformers", "LLMs", "LangChain", "LangGraph", "RAG", "Hugging Face", "Ollama"] },
   { category: "Cloud & Tools", items: ["AWS", "GitHub", "Colab", "Jupyter", "VS Code"] },
 ];
 
@@ -133,7 +154,7 @@ export default function ResumeTabs() {
                 <div>
                   <h4 className="text-xl sm:text-2xl font-bold mb-4 text-secondary">What I Do</h4>
                   <p className="text-sm sm:text-base text-neutral-300 leading-relaxed font-light">
-                    Currently gaining hands-on experience as a Data Science Intern at Luminar Technolab, I specialize in building end-to-end AI pipelines. My technical expertise spans across robust Machine Learning models, deep Computer Vision architectures (like real-time facial recognition and liveness detection), and cutting-edge Generative AI systems leveraging LLMs, LangChain, and RAG.
+                    Data Science professional with practical experience in Python, Machine Learning, Deep Learning, NLP, Computer Vision, and Generative AI. Skilled in developing end-to-end AI workflows including data cleaning, EDA, feature engineering, model building, evaluation, and deployment. Passionate about creating intelligent systems such as predictive models, RAG-based applications, AI automation tools, and data-driven business solutions.
                   </p>
                 </div>
               </motion.div>
@@ -165,7 +186,9 @@ export default function ResumeTabs() {
                 >
                   <div className="flex justify-between items-start mb-6">
                     <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-primary transition-colors">{project.title}</h3>
-                    <a href={project.link} className="text-neutral-400 hover:text-primary transition-all"><Code2 className="w-6 h-6" /></a>
+                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-primary transition-all" title="View Code on GitHub">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
+                    </a>
                   </div>
                   <p className="text-sm sm:text-base text-neutral-300 mb-6 sm:mb-8 leading-relaxed font-light">{project.description}</p>
                   <div className="flex flex-wrap gap-2">
@@ -237,17 +260,49 @@ export default function ResumeTabs() {
             <div className="space-y-8">
               <h3 className="text-xl sm:text-2xl font-bold mb-6 flex items-center gap-2 text-white"><Award className="text-accent"/> Certifications</h3>
               <ul className="space-y-4 text-neutral-200">
-                <motion.li whileHover={{ scale: 1.015, x: 6 }} className="rounded-xl border border-white/10 bg-cardBg shadow-md p-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 cursor-pointer hover:border-accent/45 hover:shadow-[0_10px_30px_rgba(127,0,255,0.12)] transition-all duration-300">
-                  <span className="text-sm sm:text-base font-medium">Supervised Machine Learning</span>
-                  <span className="text-xs px-2.5 py-1.5 bg-accent/15 border border-accent/20 text-accent font-semibold rounded w-fit sm:text-nowrap ml-0 sm:ml-2">DeepLearning.AI</span>
+                <motion.li whileHover={{ scale: 1.015, x: 6 }} className="rounded-xl border border-white/10 bg-cardBg shadow-md hover:border-accent/45 hover:shadow-[0_10px_30px_rgba(127,0,255,0.12)] transition-all duration-300">
+                  <a 
+                    href="https://moonshot.scaler.com/s/sl/-3lasB9nRW"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 w-full h-full text-neutral-200 hover:text-white"
+                  >
+                    <span className="text-sm sm:text-base font-medium">Designing Scalable RAG Pipelines</span>
+                    <span className="text-xs px-2.5 py-1.5 bg-accent/15 border border-accent/20 text-accent font-semibold rounded w-fit sm:text-nowrap ml-0 sm:ml-2">Scaler</span>
+                  </a>
                 </motion.li>
-                <motion.li whileHover={{ scale: 1.015, x: 6 }} className="rounded-xl border border-white/10 bg-cardBg shadow-md p-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 cursor-pointer hover:border-accent/45 hover:shadow-[0_10px_30px_rgba(127,0,255,0.12)] transition-all duration-300">
-                  <span className="text-sm sm:text-base font-medium">Python Libraries for Data Science</span>
-                  <span className="text-xs px-2.5 py-1.5 bg-accent/15 border border-accent/20 text-accent font-semibold rounded w-fit sm:text-nowrap ml-0 sm:ml-2">Simplilearn</span>
+                <motion.li whileHover={{ scale: 1.015, x: 6 }} className="rounded-xl border border-white/10 bg-cardBg shadow-md hover:border-accent/45 hover:shadow-[0_10px_30px_rgba(127,0,255,0.12)] transition-all duration-300">
+                  <a 
+                    href="https://www.coursera.org/account/accomplishments/verify/17CWQRK1JI93"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 w-full h-full text-neutral-200 hover:text-white"
+                  >
+                    <span className="text-sm sm:text-base font-medium">Supervised Machine Learning</span>
+                    <span className="text-xs px-2.5 py-1.5 bg-accent/15 border border-accent/20 text-accent font-semibold rounded w-fit sm:text-nowrap ml-0 sm:ml-2">DeepLearning.AI</span>
+                  </a>
                 </motion.li>
-                <motion.li whileHover={{ scale: 1.015, x: 6 }} className="rounded-xl border border-white/10 bg-cardBg shadow-md p-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 cursor-pointer hover:border-accent/45 hover:shadow-[0_10px_30px_rgba(127,0,255,0.12)] transition-all duration-300">
-                  <span className="text-sm sm:text-base font-medium">Python (Basic/Intermediate)</span>
-                  <span className="text-xs px-2.5 py-1.5 bg-accent/15 border border-accent/20 text-accent font-semibold rounded w-fit sm:text-nowrap ml-0 sm:ml-2">HackerRank</span>
+                <motion.li whileHover={{ scale: 1.015, x: 6 }} className="rounded-xl border border-white/10 bg-cardBg shadow-md hover:border-accent/45 hover:shadow-[0_10px_30px_rgba(127,0,255,0.12)] transition-all duration-300">
+                  <a 
+                    href="https://credentials.databricks.com/52934bea-6f7e-41a1-abfd-c5ce7ae91f9e#acc.PSQ3szZ7"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 w-full h-full text-neutral-200 hover:text-white"
+                  >
+                    <span className="text-sm sm:text-base font-medium">Generative AI Fundamentals</span>
+                    <span className="text-xs px-2.5 py-1.5 bg-accent/15 border border-accent/20 text-accent font-semibold rounded w-fit sm:text-nowrap ml-0 sm:ml-2">Databricks</span>
+                  </a>
+                </motion.li>
+                <motion.li whileHover={{ scale: 1.015, x: 6 }} className="rounded-xl border border-white/10 bg-cardBg shadow-md hover:border-accent/45 hover:shadow-[0_10px_30px_rgba(127,0,255,0.12)] transition-all duration-300">
+                  <a 
+                    href="https://www.hackerrank.com/certificates/iframe/896d1ff885e5"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 w-full h-full text-neutral-200 hover:text-white"
+                  >
+                    <span className="text-sm sm:text-base font-medium">Python (Basic/Intermediate)</span>
+                    <span className="text-xs px-2.5 py-1.5 bg-accent/15 border border-accent/20 text-accent font-semibold rounded w-fit sm:text-nowrap ml-0 sm:ml-2">HackerRank</span>
+                  </a>
                 </motion.li>
               </ul>
             </div>

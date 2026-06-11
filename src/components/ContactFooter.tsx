@@ -68,7 +68,7 @@ export default function ContactFooter() {
           <motion.a 
             whileHover={{ scale: 1.015, y: -2 }} 
             whileTap={{ scale: 0.985 }} 
-            href="https://drive.google.com/file/d/1SWuuvdpr0sb4a-L4nu1Fx6tOqAjc_mLi/view?usp=sharing" 
+            href="https://drive.google.com/file/d/1PFAhkeqC7JJqKUiEq6e4QvcmrW4ymBU2/view?usp=sharing" 
             target="_blank" 
             rel="noopener noreferrer" 
             className="flex items-center gap-3 p-4 rounded-xl border border-primary/30 bg-gradient-to-r from-primary/10 via-secondary/15 to-accent/10 shadow-xl hover:shadow-2xl hover:from-primary/20 hover:to-accent/25 hover:border-primary/60 transition-all duration-300 sm:col-span-2 justify-center text-white font-bold tracking-wide"

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useScroll, useMotionValueEvent, useSpring } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { useScroll, useMotionValueEvent } from "framer-motion";
 import Overlay from "./Overlay";
 
 const FRAME_COUNT = 73;
@@ -15,66 +15,39 @@ export default function ScrollyCanvas() {
     offset: ["start start", "end end"],
   });
 
-  const smoothProgress = useSpring(scrollYProgress, {
-    damping: 40,
-    stiffness: 300,
-    restDelta: 0.001
-  });
+  // Removed spring delay to ensure 0ms scrolling latency (zero scroll lag)
   
-  const [images, setImages] = useState<HTMLImageElement[]>([]);
+  const imagesRef = useRef<HTMLImageElement[]>([]);
 
-  useEffect(() => {
-    const loadedImages: HTMLImageElement[] = [];
-    let loadedCount = 0;
-
-    for (let i = 0; i < FRAME_COUNT; i++) {
-      const img = new Image();
-      // Files are named frame_00_delay-0.066s.webp, frame_01_delay-0.066s.webp, etc.
-      const frameNum = i.toString().padStart(2, "0");
-      img.src = `/sequence/frame_${frameNum}_delay-0.066s.webp`;
-      
-      img.onload = () => {
-        loadedCount++;
-        if (loadedCount === FRAME_COUNT) {
-          setImages(loadedImages);
-          // Initial draw
-          if (canvasRef.current) {
-            renderFrame(0, loadedImages);
-          }
-        }
-      };
-      loadedImages.push(img);
-    }
-    
-    // Handle resize
-    const handleResize = () => {
-      if (loadedImages.length === FRAME_COUNT) {
-        // Redraw current frame based on current scroll position
-        const latest = smoothProgress.get();
-        const frameIndex = Math.min(
-          FRAME_COUNT - 1,
-          Math.max(0, Math.floor(latest * FRAME_COUNT))
-        );
-        renderFrame(frameIndex, loadedImages);
-      }
-    };
-    
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [smoothProgress]);
-
-  const renderFrame = (index: number, imgArray: HTMLImageElement[]) => {
+  // Helper to render a frame on canvas
+  const renderFrame = (index: number) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const img = imgArray[index];
-    if (!img) return;
-
-    // Set canvas dimensions to match display size for sharp rendering
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    let img = imagesRef.current[index];
+    if (!img) {
+      // Find the nearest loaded frame to prevent any blank screen or flickering
+      let closestDist = Infinity;
+      let closestIdx = 0;
+      let found = false;
+      for (let i = 0; i < FRAME_COUNT; i++) {
+        if (imagesRef.current[i]) {
+          const dist = Math.abs(i - index);
+          if (dist < closestDist) {
+            closestDist = dist;
+            closestIdx = i;
+            found = true;
+          }
+        }
+      }
+      if (found) {
+        img = imagesRef.current[closestIdx];
+      }
+    }
+    
+    if (!img) return; // Fallback if no images are loaded yet
 
     // Simulate object-fit: cover logic
     const canvasAspect = canvas.width / canvas.height;
@@ -83,13 +56,11 @@ export default function ScrollyCanvas() {
     let drawWidth, drawHeight, offsetX, offsetY;
 
     if (canvasAspect > imgAspect) {
-      // Canvas is relatively wider than the image
       drawWidth = canvas.width;
       drawHeight = canvas.width / imgAspect;
       offsetX = 0;
       offsetY = (canvas.height - drawHeight) / 2;
     } else {
-      // Canvas is relatively taller than the image
       drawHeight = canvas.height;
       drawWidth = canvas.height * imgAspect;
       offsetX = (canvas.width - drawWidth) / 2;
@@ -100,23 +71,73 @@ export default function ScrollyCanvas() {
     ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
   };
 
-  useMotionValueEvent(smoothProgress, "change", (latest) => {
-    if (images.length === FRAME_COUNT) {
+  useEffect(() => {
+    // 1. Preload frame 0 first and render immediately to avoid initial black/empty state
+    const img0 = new Image();
+    img0.src = `/sequence/frame_00_delay-0.066s.webp`;
+    img0.onload = () => {
+      imagesRef.current[0] = img0;
+      
+      // Initial draw of first frame
+      const canvas = canvasRef.current;
+      if (canvas) {
+        const dpr = typeof window !== "undefined" ? (window.devicePixelRatio || 1) : 1;
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+        renderFrame(0);
+      }
+    };
+
+    // 2. Load other frames in the background in parallel
+    for (let i = 1; i < FRAME_COUNT; i++) {
+      const img = new Image();
+      const frameNum = i.toString().padStart(2, "0");
+      img.src = `/sequence/frame_${frameNum}_delay-0.066s.webp`;
+      img.onload = () => {
+        imagesRef.current[i] = img;
+      };
+    }
+
+    // 3. Handle window resizing without resizing in the scroll event loop (lag prevention)
+    const handleResize = () => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const dpr = typeof window !== "undefined" ? (window.devicePixelRatio || 1) : 1;
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      
+      // Redraw frame matching current progress
+      const latest = scrollYProgress.get();
       const frameIndex = Math.min(
         FRAME_COUNT - 1,
         Math.max(0, Math.floor(latest * (FRAME_COUNT - 1)))
       );
-      renderFrame(frameIndex, images);
-    }
+      renderFrame(frameIndex);
+    };
+
+    // Trigger initial sizing setup on mount
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [scrollYProgress]);
+
+  // Handle scroll progress change events instantly
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    const frameIndex = Math.min(
+      FRAME_COUNT - 1,
+      Math.max(0, Math.floor(latest * (FRAME_COUNT - 1)))
+    );
+    renderFrame(frameIndex);
   });
 
   return (
-    <div ref={containerRef} className="relative h-[500vh] w-full bg-[#121212]">
+    <div ref={containerRef} className="relative h-[250vh] w-full bg-[#121212]">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <canvas ref={canvasRef} className="w-full h-full block" />
-        <div className="absolute inset-0 bg-black/10" /> {/* Subtle darkening to make text readable */}
+        <div className="absolute inset-0 bg-black/10" />
       </div>
-      <Overlay scrollYProgress={smoothProgress} />
+      <Overlay scrollYProgress={scrollYProgress} />
     </div>
   );
 }

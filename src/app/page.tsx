@@ -1,7 +1,6 @@
 import ScrollyCanvas from "@/components/ScrollyCanvas";
 import ResumeTabs from "@/components/ResumeTabs";
 import ContactFooter from "@/components/ContactFooter";
-import ChatBubble from "@/components/ChatBubble";
 import Navbar from "@/components/Navbar";
 
 export default function Home() {
@@ -17,7 +16,6 @@ export default function Home() {
           <ContactFooter />
         </div>
       </div>
-      <ChatBubble />
     </main>
   );
 }

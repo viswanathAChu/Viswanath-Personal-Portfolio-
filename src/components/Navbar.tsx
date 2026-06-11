@@ -11,7 +11,7 @@ export default function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       // Show navbar only after user scrolls past the canvas section
-      const canvasScrollThreshold = window.innerHeight * 4.0;
+      const canvasScrollThreshold = window.innerHeight * 1.5;
       if (window.scrollY > canvasScrollThreshold) {
         setIsVisible(true);
       } else {
