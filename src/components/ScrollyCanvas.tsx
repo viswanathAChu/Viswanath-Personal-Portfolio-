@@ -6,7 +6,12 @@ import Overlay from "./Overlay";
 
 const FRAME_COUNT = 73;
 
-export default function ScrollyCanvas() {
+interface ScrollyCanvasProps {
+  onProgress: (progress: number) => void;
+  onComplete: () => void;
+}
+
+export default function ScrollyCanvas({ onProgress, onComplete }: ScrollyCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
@@ -72,6 +77,17 @@ export default function ScrollyCanvas() {
   };
 
   useEffect(() => {
+    let loadedCount = 0;
+    
+    const handleImageLoad = () => {
+      loadedCount++;
+      const progress = Math.round((loadedCount / FRAME_COUNT) * 100);
+      onProgress(progress);
+      if (loadedCount === FRAME_COUNT) {
+        onComplete();
+      }
+    };
+
     // 1. Preload frame 0 first and render immediately to avoid initial black/empty state
     const img0 = new Image();
     img0.src = `/sequence/frame_00_delay-0.066s.webp`;
@@ -86,6 +102,10 @@ export default function ScrollyCanvas() {
         canvas.height = window.innerHeight * dpr;
         renderFrame(0);
       }
+      handleImageLoad();
+    };
+    img0.onerror = () => {
+      handleImageLoad();
     };
 
     // 2. Load other frames in the background in parallel
@@ -95,6 +115,10 @@ export default function ScrollyCanvas() {
       img.src = `/sequence/frame_${frameNum}_delay-0.066s.webp`;
       img.onload = () => {
         imagesRef.current[i] = img;
+        handleImageLoad();
+      };
+      img.onerror = () => {
+        handleImageLoad();
       };
     }
 
@@ -120,7 +144,7 @@ export default function ScrollyCanvas() {
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [scrollYProgress]);
+  }, [scrollYProgress, onProgress, onComplete]);
 
   // Handle scroll progress change events instantly
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
